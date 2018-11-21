@@ -1,16 +1,36 @@
 <template>
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Example Component</div>
+        <div>
 
-                    <div class="panel-body">
-                        I'm A Task Component!
+                        <button class="btn btn-primary btn-block">Add New task</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Body</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+            </tr>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+            </tr>
+        </tbody>
+    </table>
                     </div>
-                </div>
-            </div>
-        </div>
+
 
 </template>
 

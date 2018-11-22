@@ -43373,20 +43373,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            task: {
+                name: '',
+                body: ''
+            },
+            tasks: [],
+            uri: 'http://localhost:8000/tasks'
+        };
+    },
+
+
+    methods: {
+        loadTasks: function loadTasks() {
+            var _this = this;
+
+            axios.get(this.uri).then(function (response) {
+                _this.tasks = response.data.tasks;
+            });
+        }
+    },
+
     mounted: function mounted() {
-        console.log('Component mounted.');
+        this.loadTasks();
+        console.log('Component mounted!.');
     }
 });
 
@@ -43398,55 +43411,68 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("button", { staticClass: "btn btn-primary btn-block" }, [
+      _vm._v("Add New task")
+    ]),
+    _vm._v(" "),
+    _vm.tasks
+      ? _c("table", { staticClass: "table" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.tasks, function(task, index) {
+              return _c("tr", { key: task.id }, [
+                _c("td", [_vm._v(_vm._s(index + 1))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(task.name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(task.body))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(task.id))]),
+                _vm._v(" "),
+                _vm._m(1, true),
+                _vm._v(" "),
+                _vm._m(2, true)
+              ])
+            })
+          )
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("button", { staticClass: "btn btn-primary btn-block" }, [
-        _vm._v("Add New task")
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "table" }, [
-        _c("thead", [
-          _c("tr", [
-            _c("th", [_vm._v("id")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Name")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Body")])
-          ])
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("id（ 配列のindex ）")]),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("John")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Doe")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("john@example.com")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Mary")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Doe")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("john@example.com")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("John")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Doe")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("john@example.com")])
-          ])
-        ])
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Body")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("task id")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-info" }, [_vm._v("Edit")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-danger" }, [_vm._v("Delete")])
     ])
   }
 ]

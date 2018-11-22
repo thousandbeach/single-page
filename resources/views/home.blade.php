@@ -15,7 +15,7 @@
                     @endif
 
                     <task-component></task-component>
-                    <example-component></example-component>
+                    
                 </div>
             </div>
         </div>

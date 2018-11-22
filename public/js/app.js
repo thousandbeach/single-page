@@ -43399,6 +43399,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43420,16 +43421,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createTask: function createTask() {
             var _this = this;
 
-            axios.post(this.uri, {
-                name: this.task.name,
-                body: this.task.body
-            }).then(function (response) {
+            axios.post(this.uri, { name: this.task.name, body: this.task.body }).then(function (response) {
                 _this.tasks.push(response.data.task);
                 $('#create-modal').modal('hide');
-            }).catch(function (error) {
-                console.log(error);
             });
-            //console.log(this.task.name, this.task.body);
+            console.log(this.task.name, this.task.body);
         },
         loadTasks: function loadTasks() {
             var _this2 = this;
@@ -43460,9 +43456,16 @@ var render = function() {
       {
         staticClass: "btn btn-primary btn-block",
         attrs: { "data-target": "#create-modal" },
-        on: { click: _vm.createModal }
+        on: {
+          click: function($event) {
+            if ($event.target !== $event.currentTarget) {
+              return null
+            }
+            return _vm.createModal($event)
+          }
+        }
       },
-      [_vm._v("Add Newtask")]
+      [_vm._v("Add\n        Newtask")]
     ),
     _vm._v(" "),
     _vm.tasks
@@ -43572,7 +43575,14 @@ var render = function() {
                 {
                   staticClass: "btn btn-primary",
                   attrs: { type: "button" },
-                  on: { click: _vm.createTask }
+                  on: {
+                    click: function($event) {
+                      if ($event.target !== $event.currentTarget) {
+                        return null
+                      }
+                      return _vm.createTask($event)
+                    }
+                  }
                 },
                 [_vm._v("保存する")]
               )

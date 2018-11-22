@@ -1,6 +1,7 @@
 <template>
     <div>
-        <button @click="createModal" class="btn btn-primary btn-block" data-target="#create-modal">Add Newtask</button>
+        <button @click.self="createModal" class="btn btn-primary btn-block" data-target="#create-modal">Add
+            Newtask</button>
         <table class="table" v-if="tasks">
             <thead>
                 <tr>
@@ -42,7 +43,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-                        <button @click="createTask" type="button" class="btn btn-primary">保存する</button>
+                        <button @click.self="createTask" type="button" class="btn btn-primary">保存する</button>
                     </div>
                 </div>
             </div>
@@ -70,16 +71,11 @@
             },
 
             createTask(){
-                axios.post(this.uri, {
-                    name: this.task.name,
-                    body: this.task.body
-                }).then(response=>{
+                axios.post(this.uri, {name: this.task.name, body: this.task.body}).then(response=>{
                     this.tasks.push(response.data.task);
                     $('#create-modal').modal('hide');
-                }).catch(error=>{
-                    console.log(error);
                 });
-                //console.log(this.task.name, this.task.body);
+                console.log(this.task.name, this.task.body);
             },
 
             loadTasks(){

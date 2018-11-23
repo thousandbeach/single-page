@@ -43400,6 +43400,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43409,7 +43416,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 body: ''
             },
             tasks: [],
-            uri: 'http://localhost:8000/tasks'
+            uri: 'http://localhost:8000/tasks',
+            errors: []
         };
     },
 
@@ -43424,8 +43432,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post(this.uri, { name: this.task.name, body: this.task.body }).then(function (response) {
                 _this.tasks.push(response.data.task);
                 $('#create-modal').modal('hide');
+            }).catch(function (error) {
+                _this.errors = [];
+
+                if (error.response.data.errors.name) {
+                    _this.errors.push(error.response.data.errors.name[0]);
+                }
+                if (error.response.data.errors.name) {
+                    _this.errors.push(error.response.data.errors.body[0]);
+                }
+                //this.errors = [];
             });
-            console.log(this.task.name, this.task.body);
+            //console.log(this.task.name, this.task.body);
         },
         loadTasks: function loadTasks() {
             var _this2 = this;
@@ -43456,14 +43474,7 @@ var render = function() {
       {
         staticClass: "btn btn-primary btn-block",
         attrs: { "data-target": "#create-modal" },
-        on: {
-          click: function($event) {
-            if ($event.target !== $event.currentTarget) {
-              return null
-            }
-            return _vm.createModal($event)
-          }
-        }
+        on: { click: _vm.createModal }
       },
       [_vm._v("Add\n        Newtask")]
     ),
@@ -43476,7 +43487,7 @@ var render = function() {
             "tbody",
             _vm._l(_vm.tasks, function(task, index) {
               return _c("tr", { key: task.id }, [
-                _c("td", [_vm._v(_vm._s(index + 1))]),
+                _c("td", [_vm._v(_vm._s(index))]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(task.name))]),
                 _vm._v(" "),
@@ -43505,6 +43516,19 @@ var render = function() {
             _vm._m(3),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
+              _vm.errors.length > 0
+                ? _c("div", { staticClass: "alert alert-danger" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors, function(error) {
+                        return _c("li", { key: error.id }, [
+                          _vm._v(_vm._s(error))
+                        ])
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
                 _vm._v(" "),
@@ -43574,15 +43598,8 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      if ($event.target !== $event.currentTarget) {
-                        return null
-                      }
-                      return _vm.createTask($event)
-                    }
-                  }
+                  attrs: { type: "button", "data-dismiss": "modal" },
+                  on: { click: _vm.createTask }
                 },
                 [_vm._v("保存する")]
               )

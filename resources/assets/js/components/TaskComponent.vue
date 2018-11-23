@@ -1,19 +1,18 @@
 <template>
     <div>
-        <button @click.self="createModal" class="btn btn-primary btn-block" data-target="#create-modal">Add
-            Newtask</button>
+        <button @click="createModal" class="btn btn-primary btn-block" data-target="#create-modal">新規タスクの追加</button>
         <table class="table" v-if="tasks">
             <thead>
                 <tr>
                     <th>id（ 配列のindex ）</th>
-                    <th>Name</th>
-                    <th>Body</th>
+                    <th>タスク名</th>
+                    <th>タスクの詳細</th>
                     <th>task id</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(task, index) in tasks" :key="task.id">
-                    <td>{{ index + 1 }}</td>
+                    <td>{{ index }}</td>
                     <td>{{ task.name }}</td>
                     <td>{{ task.body }}</td>
                     <td>{{ task.id }}</td>
@@ -32,6 +31,13 @@
                         <h4 class="modal-title">タイトル</h4>
                     </div>
                     <div class="modal-body">
+
+                        <div class="alert alert-danger" v-if="errors.length > 0">
+                            <ul>
+                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
+                            </ul>
+                        </div>
+
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input v-model="task.name" type="text" id="name" class="form-control">
@@ -43,7 +49,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-                        <button @click.self="createTask" type="button" class="btn btn-primary">保存する</button>
+                        <button @click="createTask" type="button" class="btn btn-primary" data-dismiss="modal">保存する</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +66,8 @@
                     body: '',
                 },
                 tasks: [],
-                uri: 'http://localhost:8000/tasks'
+                uri: 'http://localhost:8000/tasks',
+                errors: []
             }
         },
 
@@ -74,8 +81,18 @@
                 axios.post(this.uri, {name: this.task.name, body: this.task.body}).then(response=>{
                     this.tasks.push(response.data.task);
                     $('#create-modal').modal('hide');
+                }).catch(error=>{
+                    this.errors = [];
+
+                    if(error.response.data.errors.name){
+                        this.errors.push(error.response.data.errors.name[0]);
+                    }
+                    if(error.response.data.errors.name){
+                        this.errors.push(error.response.data.errors.body[0]);
+                    }
+                    //this.errors = [];
                 });
-                console.log(this.task.name, this.task.body);
+                //console.log(this.task.name, this.task.body);
             },
 
             loadTasks(){
